@@ -7,7 +7,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class EmpBackendApplication {
 
 	public static void main(String[] args) {
+		
+		System.out.println("Check");
 		SpringApplication.run(EmpBackendApplication.class, args);
+		
 	}
 
 }
