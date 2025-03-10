@@ -1,5 +1,8 @@
 package service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +34,12 @@ public class EmployeeServiceImpl implements EmployeeServices {
 	    Employee emp =  employeeRepo.findById(id)
 	      .orElseThrow(() -> new ResourceNotFound("Employee not exist of Id : " +id));
 		return EmployeeMapper.mapToEmployeeDto(emp);
+	}
+	@Override
+	public List<EmployeeDto> getAllEmployee() {
+	   List<Employee> emp = employeeRepo.findAll();
+	   
+		return emp.stream().map((empl) -> EmployeeMapper.mapToEmployeeDto(empl)).collect(Collectors.toList());
 	}
 
 }
