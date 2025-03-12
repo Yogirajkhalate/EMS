@@ -1,11 +1,10 @@
 import './App.css';
-import ListEmployee from './component/ListEmployee';
-
+import 'bootstrap/dist/css/bootstrap.min.css'
+import Employee from './component/Employee';
 function App() {
   return (
     <>
-    <ListEmployee/>
-
+     <Employee />
     </>
   );
 }
