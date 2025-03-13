@@ -5,11 +5,13 @@ import HeaderComponent from './component/HeaderComponent';
 import FooterComponent from './component/FooterComponent';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import AddEmployee from './component/AddEmployee';
+
 function App() {
   return (
     <>
+   
     <BrowserRouter>
-          <HeaderComponent />
+    <HeaderComponent />  
         <Routes>
               <Route path='/' element={ <Employee />}></Route>
               <Route path='/employees' element={ <Employee />}></Route>
@@ -17,9 +19,9 @@ function App() {
               
         </Routes>
         
-       <FooterComponent />
+        <FooterComponent /> 
     </BrowserRouter>
-          
+    
     </>
   );
 }

@@ -19,6 +19,7 @@ const Employee = () => {
      navigate('/Add-Employee')
   }
   return (<>
+  <div>
     <div className='container'>
     <h1 className='text-center'>List of Employee </h1>
     <button type="button" class="btn btn-primary" onClick={addNewEmployee}>Add Employee</button>
@@ -42,6 +43,7 @@ const Employee = () => {
            }
         </tbody>
     </table>
+    </div>
     </div>
   </>
   )
