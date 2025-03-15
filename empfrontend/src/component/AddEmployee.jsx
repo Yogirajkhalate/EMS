@@ -1,14 +1,30 @@
-import React, { useState } from 'react'
-import { createEmployee } from '../services/EmployeeService'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+import { createEmployee, getEmployeeId, updateEmployee } from '../services/EmployeeService'
+import { useNavigate ,useParams } from 'react-router-dom'
+
 const AddEmployee = () => {
+  
+ const { id } = useParams();
     const[firstName,setFirstName]=useState('')
     const[lastName,setLastName]=useState('')
     const[email,setEmail]=useState('')
 
 
   const [error,SetError]=useState({firstName:'',lastName:'',email:''})
+    
+  useEffect(() => {
+    if (id) {
+      getEmployeeId(id)
+            .then((response) => {
+                setFirstName(response.data.firstName);
+                setLastName(response.data.lastName);
+                setEmail(response.data.email);
+            })
+            .catch((error) => console.error(error));
+    }
+}, [id]); 
 
+  
    const navigate = useNavigate();
     function handleFirstName(e){
       setFirstName(e.target.value);
@@ -22,13 +38,22 @@ const AddEmployee = () => {
       setEmail(e.target.value);
       }
 
-      function saveEmployee(e) {
+      function saveOrUpdateEmployee(e) {
         e.preventDefault();
        if(validateForm()){
+         
         const employee = { firstName, lastName, email };
     
         console.log("Sending data:", employee); 
-    
+        if(id){
+
+          updateEmployee(id,employee).then((response) => {
+            console.log(response.data);
+            navigate('/employees');
+          }).catch(error=>{
+            console.error(error);
+          })
+         }else{
         createEmployee(employee)
             .then((response) => {
                 console.log("Response:", response.data);
@@ -39,6 +64,7 @@ const AddEmployee = () => {
             });
 
        }
+      }
         
     }
 
@@ -67,7 +93,16 @@ const AddEmployee = () => {
       SetError(errorCopy);
       return valid;
     }
-     
+    function backToHome(){
+      navigate('/employees');
+    }
+    function pageTital(){
+        if(!id){
+        return <h1 className='text-center'> Add Employee </h1>
+        }else{
+          return <h1 className='text-center'> Upadate Employee </h1>
+        }
+    }
   return (
     <>
     <br />
@@ -75,9 +110,11 @@ const AddEmployee = () => {
     <div className='container'>
         <div className='row'>
             <div className='card'>
-              <h1 className='text-center'> Add Employee </h1>
+              {
+               pageTital()
+              }
               <div className='card-body'>
-                <form method='POST'>
+                <form >
                     <div className='form-group'>
                 
                 <label className='form-label mb-2' > First Name : </label>
@@ -115,7 +152,7 @@ const AddEmployee = () => {
                  /> 
                  {error.email && <div className='invalid-feedback'>{error.email}</div>}
                     </div>
-                    <button type="button" className='btn btn-success' onClick={saveEmployee}>Submit</button>
+                    <button type="button" className='btn btn-success' onClick={saveOrUpdateEmployee}>Submit</button>
 
                     <button 
     type="button" 
@@ -129,6 +166,12 @@ const AddEmployee = () => {
 >
     Clear
 </button>
+
+<button   type="button"
+className="btn btn-secondary" 
+style={{ marginLeft: '10px' }}
+onClick={backToHome} 
+ >back</button>
 
                 </form>
                  

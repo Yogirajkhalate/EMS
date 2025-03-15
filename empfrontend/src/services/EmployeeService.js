@@ -9,3 +9,9 @@ export const getEmployee = () => {
 export const createEmployee = (employee) => {
     return axios.post(Rest_Api_Url,employee);
 }
+
+export const getEmployeeId = (id) => {
+    return axios.get(`${Rest_Api_Url}/${id}`);
+};
+
+export const updateEmployee = (empid,employee) => axios.put(Rest_Api_Url+'/'+empid,employee);
